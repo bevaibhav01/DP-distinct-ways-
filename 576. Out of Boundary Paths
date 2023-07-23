@@ -1,0 +1,32 @@
+//return dp[i][j][move] = (int)(((long)left + right + up + down) % (int)(Math.pow(10, 9) + 7));
+
+class Solution {
+    public int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
+     int [][][]dp=new int[m][n][maxMove+1];   
+     for(int [][]a:dp){
+         for(int []b:a){
+             Arrays.fill(b,-1);
+         }
+     }  
+     return countWays(startRow,startColumn,maxMove,m,n,dp);
+        
+    }
+
+    int countWays(int i,int j,int move,int m,int n,int[][][]dp){
+        if(i>=m||i<0||j>=n||j<0)
+           return 1;
+        if(move==0)
+          return 0;
+         if(dp[i][j][move]!=-1)
+          return dp[i][j][move];
+         int left=countWays(i,j+1,move-1,m,n,dp); 
+         int right=countWays(i,j-1,move-1,m,n,dp);
+         int up=countWays(i-1,j,move-1,m,n,dp);
+         int down=countWays(i+1,j,move-1,m,n,dp);
+
+          dp[i][j][move] = (int)(((long)left + right + up + down) % (int)(Math.pow(10, 9) + 7));
+          return dp[i][j][move];
+            
+    }
+
+}
